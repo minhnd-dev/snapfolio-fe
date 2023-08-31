@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+@layer base {
+
+  html {
+    @apply bg-slate-100
+  }
+  input[type="text"], input[type="password"] {
+    @apply block p-2 w-full rounded border-2
+  }
+  label {
+    @apply block font-bold text-sm
+  }
+  button {
+    @apply p-2 bg-slate-500 text-white font-bold
+  }
+}
