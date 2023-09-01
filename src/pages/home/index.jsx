@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import Header from "./header";
-import FileUploadPopup from "./file-uploader"
-import ImageList from "./image-list";
+import Header from "./components/header";
+import FileUploadPopup from "./components/file-uploader"
+import ImageList from "./components/image-list";
+import ImageViewer from "./components/image-viewer";
+import RighSideBar from "./components/right-side-bar";
 export function Home() {
     const [showUpload, setShowUpload] = useState(false);
     const [userFilesData, setUserFilesData] = useState([]);
-
-    const updateUserFilesData = (data) => {
-        setUserFilesData(data);
-    }
+    const [currentImage, setCurrentImage] = useState();
 
     useEffect(() => {
         reloadFiles();
@@ -39,10 +38,9 @@ export function Home() {
         window.location.href = '/login';
     }
 
-    const deleteImagesHandler = () => {
+    const deleteImagesHandler = async () => {
         const deletedFiles = userFilesData.filter(file => file.status).map(file => String(file.id));
-        console.log(deletedFiles)
-        fetch('http://localhost:8000/files/multiple', {
+        await fetch('http://localhost:8000/files/multiple', {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'content-type': 'application/json',
@@ -53,12 +51,37 @@ export function Home() {
         reloadFiles();
     }
 
+    const clickNextHandler = (fileId) => {
+        let index = userFilesData.findIndex((file) => file.id === fileId);
+        if (index < userFilesData.length - 1) {
+            console.log(index + 1);
+            setCurrentImage(userFilesData[index + 1]);
+        }
+    }
+
+    const clickBackHandler = (fileId) => {
+        let index = userFilesData.findIndex((file) => file.id === fileId);
+        if (index > 0) {
+            console.log(index - 1);
+            setCurrentImage(userFilesData[index - 1])
+        }
+    }
+
+    const closeImageViewerHandler = () => {
+        setCurrentImage(null);
+    }
+
+    const closeUploadHandler = () => {
+        setShowUpload(false);
+    }
+
     return (
         <>
-            <Header clickDeleteHandler={deleteImagesHandler} clickUploadHandler={() => setShowUpload(true)}/>
-            {showUpload && <FileUploadPopup />}
+            <Header clickDeleteHandler={deleteImagesHandler} clickUploadHandler={() => setShowUpload(true)} />
+            {currentImage && <ImageViewer image={currentImage} clickNextHandler={clickNextHandler} clickBackHander={clickBackHandler} closeHandler={closeImageViewerHandler}/>}
+            {showUpload && <FileUploadPopup closeHandler={closeUploadHandler}/>}
             <div className="h-20 w-1 "></div>
-            <ImageList images={userFilesData} updateImages={updateUserFilesData}/>
+            <ImageList images={userFilesData} updateImages={setUserFilesData} setCurrentImage={setCurrentImage} />
         </>
     )
 }
