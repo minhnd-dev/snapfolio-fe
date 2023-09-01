@@ -8,10 +8,6 @@
   box-sizing: border-box;
 }
 @layer base {
-
-  html {
-    @apply bg-slate-100
-  }
   input[type="text"], input[type="password"] {
     @apply block p-2 w-full rounded border-2
   }
