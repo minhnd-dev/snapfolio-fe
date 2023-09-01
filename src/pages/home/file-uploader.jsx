@@ -10,17 +10,19 @@ export default function FileUploadPopup() {
         e.preventDefault();
     }
     const dropFileHandler = async (e) => {
+        console.log(e.dataTransfer.items);
+        console.log(e.dataTransfer.files);
         e.preventDefault();
         if (e.dataTransfer.items) {
-            [...e.dataTransfer.items].forEach((item) => {
+            [...e.dataTransfer.items].map(async (item) => {
                 if (item.kind === "file") {
                     const file = item.getAsFile();
-                    upload(file);
+                    await upload(file);
                 }
-            });
+            })
         } else {
-            [...e.dataTransfer.files].forEach((file) => {
-                upload(file);
+            [...e.dataTransfer.files].map(async (file) => {
+                await upload(file);
             });
         }
         location.reload();
@@ -37,7 +39,7 @@ export default function FileUploadPopup() {
             body: formData
         });
         if (res.status === 200) {
-            const data = await res.json();
+            await res.json();
         } else {
             alert("Lỗi upload");
         }

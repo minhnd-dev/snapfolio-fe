@@ -6,14 +6,21 @@ export function Home() {
     const [showUpload, setShowUpload] = useState(false);
     const [userFilesData, setUserFilesData] = useState([]);
 
+    const updateUserFilesData = (data) => {
+        setUserFilesData(data);
+    }
+
     useEffect(() => {
+        reloadFiles();
+    }, [])
+
+    const reloadFiles = () => {
         getFiles().then(data => {
             setUserFilesData(data);
         }).catch(err => {
             console.log(err);
         });
-    }, [])
-
+    }
 
     const getFiles = async () => {
         const res = await fetch('http://localhost:8000/files', {
@@ -43,14 +50,15 @@ export function Home() {
             method: 'DELETE',
             body: JSON.stringify(deletedFiles),
         });
-        location.reload();
+        reloadFiles();
     }
+
     return (
         <>
             <Header clickDeleteHandler={deleteImagesHandler} clickUploadHandler={() => setShowUpload(true)}/>
             {showUpload && <FileUploadPopup />}
             <div className="h-20 w-1 "></div>
-            <ImageList images={userFilesData}/>
+            <ImageList images={userFilesData} updateImages={updateUserFilesData}/>
         </>
     )
 }
