@@ -36,14 +36,17 @@ function Image({ image, status, toggleStatus, inSelectMode, setCurrentImage }) {
         }
     }
     return (
-        <div className="relative" >
+        <div className={`relative h-40 md:h-64 ${status ? 'p-8' : ''}`} >
             <div className="absolute cursor-pointer" onClick={() => toggleStatus(image.id)}>
                 {status ?
-                    <Icon icon="icon-park-solid:check-one" className="m-2 text-3xl text-slate-500 rounded-full bg-white " />
-                    : <Icon icon="icon-park-outline:check-one" className="m-2 text-3xl text-slate-500 rounded-full bg-white " />
+                    <Icon icon="icon-park-solid:check-one" className="m-2 text-3xl text-sky-700 rounded-full bg-white " />
+                    : <Icon icon="icon-park-outline:check-one" className="m-2 text-3xl text-sky-700 rounded-full bg-white " />
                 }
             </div>
-            <img className="object-cover w-full h-40 md:h-64 rounded-xl cursor-pointer" src={`http://localhost:8000/${image.path}`} onClick={clickImageHandler} />
+            <img
+                className="object-cover w-full h-full rounded-xl cursor-pointer"
+                src={`http://localhost:8000/files/${image.code}`}
+                onClick={clickImageHandler} />
         </div>
     )
 }
