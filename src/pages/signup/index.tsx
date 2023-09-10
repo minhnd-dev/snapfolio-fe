@@ -6,7 +6,6 @@ export function SignUp() {
     const [verify, setVerify] = useState("");
 
     const signUp = async () => {
-        console.log(username, password);
         if (password !== verify) {
             alert("Mật khẩu không khớp");
             return;
@@ -26,7 +25,6 @@ export function SignUp() {
             localStorage.setItem('token', data.access_token);
             window.location.href = '/';
         } else {
-            console.log(res);
             alert("Lỗi đăng ký");
         }
     }

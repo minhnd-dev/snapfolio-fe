@@ -6,8 +6,6 @@ export default function FileUploadPopup({ closeHandler }) {
         e.preventDefault();
     }
     const dropFileHandler = async (e) => {
-        console.log(e.dataTransfer.items);
-        console.log(e.dataTransfer.files);
         e.preventDefault();
         if (e.dataTransfer.items) {
             [...e.dataTransfer.items].map(async (item) => {
@@ -21,7 +19,7 @@ export default function FileUploadPopup({ closeHandler }) {
                 await upload(file);
             });
         }
-        // location.reload();
+        location.reload();
     }
 
     const upload = async (uploadedFile) => {
@@ -42,7 +40,7 @@ export default function FileUploadPopup({ closeHandler }) {
     }
 
     const chooseFileHandler = (e) => {
-        [...e.target.files].forEach((file, i) => {
+        [...e.target.files].forEach((file) => {
             upload(file);
         });
         // location.reload();

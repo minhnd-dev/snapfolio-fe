@@ -5,7 +5,6 @@ export function Login() {
     const [password, setPassword] = useState("");
 
     const login = async () => {
-        console.log(username, password);
         const formData = new FormData();
         formData.append('username', username);
         formData.append('password', password);
@@ -17,6 +16,7 @@ export function Login() {
             const data = await res.json();
             localStorage.setItem('token', data.access_token);
             localStorage.setItem('refresh', data.refresh);
+            localStorage.setItem('username', username);
             window.location.href = '/';
         } else {
             alert("Invalid username or password");

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Icon } from '@iconify/react';
 
-export default function RightSideBar({ changeTagHandler, currentTag, setShowTagEditor}) {
+export default function LeftSideBar({ changeTagHandler, currentTag, setShowTagEditor}) {
     const [tags, setTags] = useState([]);
 
     const reduceLabel = (label) => (label.length > 20 ? label.substring(0, 20) + "..." : label)
